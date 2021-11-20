@@ -1,0 +1,26 @@
+{
+  "name": "fs-02-js-final",
+  "version": "1.0.0",
+  "description": "Final for FS-02 JS Unit",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swetachovatiya23/fs-02-JS-final.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swetachovatiya23/fs-02-JS-final/issues"
+  },
+  "homepage": "https://github.com/swetachovatiya23/fs-02-JS-final#readme",
+  "dependencies": {
+    "api": "^4.1.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "live-server": "^1.2.1"
+  }
+}
