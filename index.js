@@ -11,6 +11,7 @@ const myMap = {
             center: this.coordinates,
             zoom: 10,
         });
+        
         // OpenStreams
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -25,7 +26,6 @@ const myMap = {
 
     // Business Markers
     addMarkers() {
-        console.log(this.businesses)
         for (var i = 0; i < this.businesses.length; i++) {
             this.markers = L.marker([
                 this.businesses[i].lat,
@@ -65,7 +65,6 @@ async function getBusinesses(business) {
 
 // API execute
 function executeBusinesses(data) {
-    console.log(data[0])
     let businesses = data.map((element) => {
         let location = {
             name: element.venue.name,
@@ -92,3 +91,4 @@ document.getElementById('submit').addEventListener('click', async (event) => {
     myMap.businesses = executeBusinesses(data)
     myMap.addMarkers()
 })
+
