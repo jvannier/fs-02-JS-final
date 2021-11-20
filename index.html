@@ -11,9 +11,8 @@
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+
     <!-- js plugins -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
@@ -27,9 +26,9 @@
 </head>
 
 <body>
-    <h1>not a smart map</h1>
+    <h1>not so smart map</h1>
     <form action="/action_page.php">
-        <label for="cars">Choose a location</label>
+        <label>Choose a location</label>
         <select id="selections">
             <option value="Coffee">Coffee</option>
             <option value="Restaurants">Restaurants</option>
@@ -37,7 +36,7 @@
             <option value="Gym">Gym</option>
             <option value="Movies">Movies</option>
         </select>
-        <input id="test" type="submit" value="Submit">
+        <button id="find" type="button">FIND</button>
     </form>
     <br>
     <div id="map"></div>
