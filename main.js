@@ -15,23 +15,76 @@ const myMap = {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        minZoom: '15',
+        minZoom: '1',
         }).addTo(this.map)
+    
 // create and add geolocation marker for self
     const marker = L.marker(this.coordinates)
-    marker.addTo(this.map).bindPopup('<p1><b>Me</b><br></p1>').openPopup()
-    }
-}
+    marker.addTo(this.map).bindPopup('<p1><b>This is Me!</b><br></p1>').openPopup()
+    },
+
 // adding business markers
-
+    addMarkers() {
+        for (let i = 0; i < this.businesses.length; i++) {
+        this.markers = L.marker([
+            this.businesses[i].lat,
+            this.businesses[i].long,
+        ])
+            .bindPopup(`<p1>${this.businesses[i].name}</p1>`)
+            .addTo(this.map)
+        }
+    },
+}
 // get coordinates via geolocation api 
-
-// get foursquare businesses using REST GET method
-
-// processig the foursquare array
+async function getCoords(){
+	const position = await new Promise((resolve, reject) => {
+		navigator.geolocation.getCurrentPosition(resolve, reject)
+	});
+	return [position.coords.latitude, position.coords.longitude]
+}
+// changed to mock.api
+async function getFoursquare(business) {
+    const options = {
+    method: "GET",
+    headers: { 
+        "Content-Type": "application/json"
+    }
+    };
+        let response = await fetch(`https://60d23844858b410017b2d60b.mockapi.io/places`, options)
+        let data = await response.text()
+        console.log(data)
+        let parsedData = JSON.parse(data)
+        let businesses = parsedData.response
+        return businesses
+}
+// processing data from api
+function businessesData(data) {
+	let businesses = data.map(() => {
+		let location = {
+		name: element.name,
+        product: element.product,
+		lat: element.lat,
+		long: element.lng,
+		};
+		return location
+	})
+	return businesses
+}
+// window load
+window.onload = async () => {
+	const coords = await getCoords()
+	myMap.coordinates = coords
+	myMap.buildMap()
+}
 
 // event handlers
-
-// window load
-
 // business submit button
+document.getElementById('submit')
+addEventListener('click', (event) => {
+	console.log("this is working");
+	business = document.getElementById('business').value
+	data = getFoursquare(business)		
+	event.preventDefault()
+	myMap.businesses = businessesData(data)
+	myMap.addMarkers()
+})
