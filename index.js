@@ -1,5 +1,5 @@
 // Map object                                                      
-const myMap =  {
+const myMap = {
     coordinates: [],
     businesses: [],
     map: {},
@@ -31,8 +31,9 @@ const myMap =  {
                 this.businesses[i].lat,
                 this.businesses[i].lon,
             ])
-                .bindPopup(`<p>${this.businesses[i].name}<p>`)
                 .addTo(this.map)
+                .bindPopup(`<p>${this.businesses[i].name}<p>`)
+
         }
     },
 }
@@ -49,30 +50,27 @@ async function getCoordinates(businesses) {
 // API get
 async function getBusinesses(business) {
     let clientId = "3J5YYNCNKZRXEAIRVG3SBTUIGGHSSZLSUYVGAL4IPG0EPA34";
-    let clentSecret = "IPGTGUNL5IUETNNIQXNVXWQD2AB1QDIWZZY0B5UXB0NHPDQU";  
+    let clentSecret = "IPGTGUNL5IUETNNIQXNVXWQD2AB1QDIWZZY0B5UXB0NHPDQU";
     let limit = 5
     let lat = myMap.coordinates[0]
-    console.log(lat)
     let lon = myMap.coordinates[1]
-    console.log(lon)
     let response = await fetch(
         `https://api.foursquare.com/v2/venues/explore?client_id=${clientId}&client_secret=${clentSecret}&v=20180323&limit=${limit}&ll=${lat},${lon}&query=${business}`);
     let data = await response.text()
-    console.log(data)
     let parsedData = JSON.parse(data)
-    console.log(parsedData)
     let businesses = parsedData.response.groups[0].items
 
     return businesses
 }
 
 // API execute
-async function executeBusinesses(data) {
+function executeBusinesses(data) {
+    console.log(data[0])
     let businesses = data.map((element) => {
         let location = {
             name: element.venue.name,
             lat: element.venue.location.lat,
-            lon: element.venue.location.lon,
+            lon: element.venue.location.lng,
         };
         return location
     })
@@ -88,9 +86,9 @@ window.onload = async () => {
 
 // Button event listener
 document.getElementById('submit').addEventListener('click', async (event) => {
-	event.preventDefault();
-	let business = document.getElementById('business').value;
-	let data = await getBusinesses(business)
-	myMap.businesses = executeBusinesses(data)
-	myMap.addMarkers()
+    event.preventDefault();
+    let business = document.getElementById('business').value;
+    let data = await getBusinesses(business)
+    myMap.businesses = executeBusinesses(data)
+    myMap.addMarkers()
 })
