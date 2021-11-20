@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stuff near ME</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    <style>
+        #map {
+            height: 800px;
+        }
+    </style>
 </head>
+
 <body>
-
-
-
+    <h1>not a smart map</h1>
+    <form action="/action_page.php">
+        <label for="cars">Choose a location</label>
+        <select name="cars" id="cars">
+            <option value="">stuff1</option>
+            <option value="">stuff2</option>
+            <option value="">stuff3</option>
+            <option value="">stuff4</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <div id="map"></div>
 
     <script src="map.js"></script>
 </body>
+
 </html>
