@@ -1,24 +1,48 @@
-// async function getCoords(){
-//     pos = await new Promise((resolve, reject) => {
-//         navigator.geolocation.getCurrentPosition(resolve, reject)
-//     })
-//     return [pos.coords.latitude, pos.coords.longitude]
-// }
+function displayMap() {
+    navigator.geolocation.getCurrentPosition(showPosition)
+}
 
+function showPosition(position) {
+    let lat = position.coords.latitude
+    let long = position.coords.longitude;
+
+    const map = L.map('map', {
+        center: [lat, long],
+        zoom: 15,
+    })
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map)
+    L.marker([lat, long]).addTo(map).bindPopup("My location")
+    L.control.locate().addTo(map)
+
+
+    async function getFoursquare(business) {
+        let clientId = '3J5YYNCNKZRXEAIRVG3SBTUIGGHSSZLSUYVGAL4IPG0EPA34'
+        let clentSecret = 'IPGTGUNL5IUETNNIQXNVXWQD2AB1QDIWZZY0B5UXB0NHPDQU'
+        let limit = 5
+        let lat = map.coordinates[0]
+        let lon = map.coordinates[1]
+        let response = await fetch(
+            `https://api.foursquare.com/v2/venues/explore?client_id=${clientId}&client_secret=${clentSecret}&v=20180323&limit=${limit}&ll=${lat},${lon}&query=${business}`
+        );
+        let data = await response.json()
+        console.log(data)
+    }
+
+
+}
 
 // create map
-const map = L.map('map', {
-    center: [40.0583, -74.4057],
-    zoom: 12,
-})
+displayMap()
 
-// add openstreetmap tiles
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map)
 
-map.locate({setView: true, maxZoom: 16})
-L.control.locate().addTo(map)
+
+
+
+
+
 
 
 // create and main add geolocation marker
