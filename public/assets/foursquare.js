@@ -4,32 +4,34 @@
 
 async function getFoursquare(business, lat, lon) {
     let clientId = '3J5YYNCNKZRXEAIRVG3SBTUIGGHSSZLSUYVGAL4IPG0EPA34'
-    let clentSecret = 'IPGTGUNL5IUETNNIQXNVXWQD2AB1QDIWZZY0B5UXB0NHPDQU'
+    let clientSecret = 'IPGTGUNL5IUETNNIQXNVXWQD2AB1QDIWZZY0B5UXB0NHPDQU'
     let limit = 5
 
-    let response = await fetch(`https://api.foursquare.com/v2/venues/explore?client_id=${clientId}&client_secret=${clentSecret}&v=20180323&limit=${limit}&ll=${lat},${lon}&query=${business}`)
+    // call foursquare
+    let response = await fetch(`https://api.foursquare.com/v2/venues/explore?client_id=${clientId}&client_secret=${clientSecret}&v=20180323&limit=${limit}&ll=${lat},${lon}&query=${business}`)
 
+    // parse response
     const data = await response.json()
 
-    let businesses = data.response.groups[0].items
-    return businesses
+    const items = data.response.groups[0].items
+
+    let locations = items.map((item) => {
+        let venue = item.venue
+        let location = venue.location
+
+        return {
+            name: venue.name,
+            lat: location.lat,
+            lon: location.lng
+        }
+    })
+
+    return locations
 }
 
-function processBusinesses(data) {
-    let businesses = data.map((element) => {
-        let location = {
-            name: element.venue.name,
-            lat: element.venue.location.lat,
-            lon: element.venue.location.lng,
-        };
-        return location
-    })
-    return businesses
-}
 
 async function getBusinessLocations(businessType, lat, lon) {
-    const fourSquareItems = await getFoursquare(businessType, lat, lon)
-    const locations = processBusinesses(fourSquareItems);
+    const locations = await getFoursquare(businessType, lat, lon)
 
     return locations;
 }
