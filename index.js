@@ -19,18 +19,19 @@ const myMap =  {
         // User Location
         const marker = L.marker(this.coordinates)
         marker.addTo(this.map)
-            .bindPopup('<p1><i>You are here</i></p1>')
+            .bindPopup('<p><i>You are here</i></p>')
             .openPopup()
     },
 
     // Business Markers
     addMarkers() {
+        console.log(this.businesses)
         for (var i = 0; i < this.businesses.length; i++) {
             this.markers = L.marker([
                 this.businesses[i].lat,
-                this.businesses[i].long,
+                this.businesses[i].lon,
             ])
-                .bindPopup("<p1>${this.businesses[i].name}<p1>")
+                .bindPopup(`<p>${this.businesses[i].name}<p>`)
                 .addTo(this.map)
         }
     },
@@ -47,26 +48,31 @@ async function getCoordinates(businesses) {
 
 // API get
 async function getBusinesses(business) {
-    let clientId = "JBI5SJXGXHJUW4HZ3GQMYKPJ0XF04P01OERHSS403XKN2FHR"
-    let clentSecret = "MXLUTR4MN55X0CKVUQK5ZBKDQ5DCM2MFQIQP31S3GGLM3YJP"
+    let clientId = "3J5YYNCNKZRXEAIRVG3SBTUIGGHSSZLSUYVGAL4IPG0EPA34";
+    let clentSecret = "IPGTGUNL5IUETNNIQXNVXWQD2AB1QDIWZZY0B5UXB0NHPDQU";  
     let limit = 5
     let lat = myMap.coordinates[0]
+    console.log(lat)
     let lon = myMap.coordinates[1]
+    console.log(lon)
     let response = await fetch(
         `https://api.foursquare.com/v2/venues/explore?client_id=${clientId}&client_secret=${clentSecret}&v=20180323&limit=${limit}&ll=${lat},${lon}&query=${business}`);
     let data = await response.text()
+    console.log(data)
     let parsedData = JSON.parse(data)
+    console.log(parsedData)
     let businesses = parsedData.response.groups[0].items
+
     return businesses
 }
 
 // API execute
-function executeBusinesses(data) {
+async function executeBusinesses(data) {
     let businesses = data.map((element) => {
         let location = {
             name: element.venue.name,
             lat: element.venue.location.lat,
-            long: element.venue.location.lng,
+            lon: element.venue.location.lon,
         };
         return location
     })
@@ -82,7 +88,9 @@ window.onload = async () => {
 
 // Button event listener
 document.getElementById('submit').addEventListener('click', async (event) => {
-	event.preventDefault()
-	let business = document.getElementById('business').value
-	console.log(business)
+	event.preventDefault();
+	let business = document.getElementById('business').value;
+	let data = await getBusinesses(business)
+	myMap.businesses = executeBusinesses(data)
+	myMap.addMarkers()
 })
