@@ -1,3 +1,4 @@
+
 // creating a map object
 const myMap = {
 	coordinates: [],
@@ -9,7 +10,7 @@ const myMap = {
     buildMap() {
         this.map = L.map('map', {
         center: this.coordinates,
-        zoom: 10,
+        zoom: 4,
         }),
 // add openstreetmap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -17,20 +18,34 @@ const myMap = {
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         minZoom: '1',
         }).addTo(this.map)
-    
+
+// // Personalized icon
+    let LeafIcon = L.Icon.extend({
+        options: {
+            iconUrl: 'leaf-green.png',
+            iconSize:     [38, 95],
+            shadowSize:   [50, 64],
+            iconAnchor:   [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor:  [-3, -76]
+        }
+    }),
+        
 // create and add geolocation marker for self
-    const marker = L.marker(this.coordinates)
-    marker.addTo(this.map).bindPopup('<p1><b>This is Me!</b><br></p1>').openPopup()
+    marker = L.marker(this.coordinates, {icon: LeafIcon})
+        marker.addTo(this.map).bindPopup('<p1><b>This is Me!</b><br></p1>').openPopup()
     },
 
 // adding business markers
-    addMarkers() {
-        for (let i = 0; i < this.businesses.length; i++) {
-        this.markers = L.marker([
-            this.businesses[i].lat,
-            this.businesses[i].long,
+    addMarkers(businesses) {
+        for (let i = 0; i < businesses.length; i++) {
+            // console.log(businesses[i].lat)
+            // console.log(businesses[i].long)
+        marker = L.marker([
+            businesses[i].lat,
+            businesses[i].long,
         ])
-            .bindPopup(`<p1>${this.businesses[i].name}</p1>`)
+            .bindPopup(`<p1>${businesses[i].name}</p1>`)
             .addTo(this.map)
         }
     },
@@ -54,21 +69,33 @@ async function getFoursquare(business) {
         let data = await response.text()
         console.log(data)
         let parsedData = JSON.parse(data)
-        let businesses = parsedData.response
+        let businesses = parsedData
         return businesses
 }
-// processing data from api
-function businessesData(data) {
-	let businesses = data.map(() => {
-		let location = {
-		name: element.name,
-        product: element.product,
-		lat: element.lat,
-		long: element.lng,
-		};
-		return location
-	})
-	return businesses
+// // processing data from api
+// function businessesData(data) {
+// 	// let businesses = data.map(() => {
+// 	// 	let location = {
+// 	// 	name: element.name,
+//     //     product: element.product
+
+// 		};
+// 		return location
+// 	})
+// 	return businesses
+// }
+function businessData(data){
+    for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        let location = [{
+            name: element.name,
+            product: element.product,
+            lat: element.latitude,
+            long: element.longitude
+    }]
+        myMap.addMarkers(location)
+        
+    }
 }
 // window load
 window.onload = async () => {
@@ -80,11 +107,11 @@ window.onload = async () => {
 // event handlers
 // business submit button
 document.getElementById('submit')
-addEventListener('click', (event) => {
+addEventListener('click', async (event) => {
 	console.log("this is working");
 	business = document.getElementById('business').value
-	data = getFoursquare(business)		
+	let data = await getFoursquare(business)		
 	event.preventDefault()
-	myMap.businesses = businessesData(data)
-	myMap.addMarkers()
+	businessData(data)
 })
+
