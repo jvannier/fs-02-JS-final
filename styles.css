@@ -1,0 +1,50 @@
+#map { 
+    height: 500px;
+    width: 75%; 
+    box-shadow: 1em 2em gray;    
+}
+
+#map::before{
+        content: 'LOADING';
+        font-size: 3em;
+        text-align: center;
+        width: 75%;
+        position: f;
+        margin-top: 3em;
+        margin-bottom: 10em;
+        }
+
+#form {
+    text-decoration-color: ivory;
+    display: flexbox;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 35px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-align: center;
+    width: 75%;
+    box-sizing: border-box;
+    
+    margin-top: 5em;
+    margin-bottom: 5em;
+    size: 5px;
+    }
+
+header {
+    position: relative;
+    text-align: center;
+    color: green;
+    width: 75%;
+    padding: 
+    35px 32px;
+}
+
+#food {
+    
+    
+}
+
+
