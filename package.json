@@ -1,0 +1,27 @@
+{
+  "name": "fs-02-JS-final",
+  "version": "1.0.0",
+  "description": "this is going to be an epic interactive map. believe it!",
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "live-server": "^1.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milcab/fs-02-JS-final.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/milcab/fs-02-JS-final/issues"
+  },
+  "homepage": "https://github.com/milcab/fs-02-JS-final#readme"
+}
