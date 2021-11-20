@@ -5,6 +5,7 @@ function displayMap() {
 function showPosition(position) {
     let lat = position.coords.latitude
     let long = position.coords.longitude;
+    // let business = document.getElementById('selections').value;
 
     const map = L.map('map', {
         center: [lat, long],
