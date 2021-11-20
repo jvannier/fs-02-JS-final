@@ -1,0 +1,16 @@
+
+#map { 
+    height: 400px;
+    width: 600px;
+    top: 15px;
+}
+#submit {
+    border-radius: 2px;
+    background-color: rgb(79, 224, 122);
+    border-color: whitesmoke;
+    border-radius: 20%;
+}
+
+.leaflet-popup-content-wrapper {
+    width: 100%;
+}
