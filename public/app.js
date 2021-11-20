@@ -28,7 +28,7 @@ const map1 = {
 
 	// add business markers
 	addMarkers() {
-		this.map.removeLayer(this.marker)
+		
 		for (var i = 0; i < this.businesses.length; i++) {
 			
 			this.markers = L.marker([
