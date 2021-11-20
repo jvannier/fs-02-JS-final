@@ -1,3 +1,11 @@
+async function getCoords(){
+    pos = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
+    return [pos.coords.latitude, pos.coords.longitude]
+}
+
+
 // create map
 const myMap = L.map('map', {
     center: [40.0583, -74.4057],
@@ -10,5 +18,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(myMap)
 
 // create and main add geolocation marker
-const marker = L.marker([40.0583, -74.4057])
-marker.addTo(myMap).bindPopup('<p1><b>RANDOM LOCATION</b></p1>').openPopup()
+window.onload = async () => {
+    const coords = await getCoords()
+    L.marker([coords[0], coords[1]])
+}
+// const marker = L.marker([40.0583, -74.4057])
+// marker.addTo(myMap).bindPopup('<p1><b>RANDOM LOCATION</b></p1>').openPopup()
